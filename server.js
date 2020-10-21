@@ -4,6 +4,8 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
+const db = require("./models");
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -30,6 +32,18 @@ connection.on("error", (err) => {
 app.get("/api/config", (req, res) => {
   res.json({
     success: true,
+  });
+});
+
+app.get("/api/ingredients", (req, res) => {
+  db.Ingredient.find({}).then((foundIngredients) => {
+    res.json(foundIngredients);
+  });
+});
+
+app.post("/api/ingredients", (req, res) => {
+  db.Ingredient.create(req.body).then((newIngredient) => {
+    res.json(newIngredient);
   });
 });
 
