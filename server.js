@@ -5,6 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const ingredientsController = require("./controllers/ingredientsController");
+const pizzaController = require("./controllers/pizzaController")
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -36,6 +37,7 @@ app.get("/api/config", (req, res) => {
 });
 
 app.use(ingredientsController);
+app.use(pizzaController);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
