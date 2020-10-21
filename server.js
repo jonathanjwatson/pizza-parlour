@@ -4,7 +4,7 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-const db = require("./models");
+const ingredientsController = require("./controllers/ingredientsController");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -35,35 +35,7 @@ app.get("/api/config", (req, res) => {
   });
 });
 
-app.get("/api/ingredients", (req, res) => {
-  db.Ingredient.find({})
-    .then((foundIngredients) => {
-      res.json(foundIngredients);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.json({
-        error: true,
-        data: null,
-        message: "Failed to retrieve ingredients.",
-      });
-    });
-});
-
-app.post("/api/ingredients", (req, res) => {
-  db.Ingredient.create(req.body)
-    .then((newIngredient) => {
-      res.json(newIngredient);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.json({
-        error: true,
-        data: null,
-        message: "Failed to create new ingredient.",
-      });
-    });
-});
+app.use(ingredientsController);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
